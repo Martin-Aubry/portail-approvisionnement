@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Categories_magasinage {
+  id                    Int     @id @default(autoincrement())
+  categories_magasinage String?
+
+  @@map("Categories_magasinage")
+}
+
+model Demande {
+  id        Int      @id @default(autoincrement())
+  titre     String
+  statut    String
+  unite     String
+  courriel  String ?   // 👈 nouvelle colonne
+  createdAt DateTime @default(now())
+
+  lots Lot[] // 👈 relation inverse vers les lots
+  @@map("Demande")
+}
+
+model Acces_role_ecran {
+  id       Int    @id @default(autoincrement())
+  roleId   Int
+  ecranId  Int // 👈 clé étrangère vers Ecrans
+
+  role     Roles   @relation(fields: [roleId], references: [id])
+  ecran    Ecrans  @relation(fields: [ecranId], references: [id]) // 👈 relation inverse
+
+  @@unique([roleId, ecranId])
+}
+
+
+model Type_traitement_souhaite {
+  id                       Int  @id @default(autoincrement())
+  type_traitement_souhaite Int?
+
+  @@map("Type_traitement_souhaite")
+}
+
+model Unite_affaires {
+  id  Int     @id @default(autoincrement())
+  nom String?
+
+  @@map("Unite_affaires")
+}
+
+model Utilisateurs {
+  id           Int                @id @default(autoincrement())
+  nom          String?
+  courriel     String?            @db.text
+  mot_de_passe String?
+
+  roles        Utilisateur_role[] // Relation avec la table pivot
+
+  @@map("Utilisateurs")
+}
+
+model Roles {
+  id       Int                @id @default(autoincrement())
+  role_nom String
+  priorite  Int
+  utilisateurs Utilisateur_role[] // Relation avec la table pivot
+  acces       Acces_role_ecran[]
+
+  @@map("Roles")
+}
+
+model Utilisateur_role {
+  id             Int @id @default(autoincrement())
+  utilisateurId  Int
+  roleId         Int
+
+  utilisateur    Utilisateurs @relation(fields: [utilisateurId], references: [id])
+  role           Roles        @relation(fields: [roleId], references: [id])
+
+  @@map("Utilisateur_role")
+}
+
+model Ecrans {
+  id    Int    @id @default(autoincrement())
+  nom   String @unique
+
+  acces Acces_role_ecran[]
+
+  @@map("Ecrans")
+}
+
+model Lot {
+  id          Int       @id @default(autoincrement())
+  description String
+  demandeId   Int
+  demande     Demande   @relation(fields: [demandeId], references: [id])
+  items       ItemBordereau[]
+
+  @@map("Lots")
+}
+
+model ItemBordereau {
+  id          Int     @id @default(autoincrement())
+  lotId       Int
+  description String
+  quantite    Float
+  unite       String
+  prixUnitaire Float
+
+  lot         Lot     @relation(fields: [lotId], references: [id])
+
+  @@map("Item_Bordereau")
+}
+
+

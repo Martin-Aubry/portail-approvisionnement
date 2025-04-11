@@ -1,0 +1,217 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "Acces_role_ecran" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "roleId" INTEGER NOT NULL,
+    "ecranId" INTEGER NOT NULL,
+    CONSTRAINT "Acces_role_ecran_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Roles" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Acces_role_ecran_ecranId_fkey" FOREIGN KEY ("ecranId") REFERENCES "Ecrans" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "Categories_magasinage" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "categories_magasinage" TEXT
+);
+CREATE TABLE IF NOT EXISTS "Demande" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "titre" TEXT NOT NULL,
+    "statut" TEXT NOT NULL,
+    "unite" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+, "courriel" TEXT);
+CREATE TABLE IF NOT EXISTS "Ecrans" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nom" TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "Item_Bordereau" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "lotId" INTEGER NOT NULL,
+    "description" TEXT NOT NULL,
+    "quantite" REAL NOT NULL,
+    "unite" TEXT NOT NULL,
+    "prixUnitaire" REAL NOT NULL,
+    CONSTRAINT "Item_Bordereau_lotId_fkey" FOREIGN KEY ("lotId") REFERENCES "Lots" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "Lots" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "description" TEXT NOT NULL,
+    "demandeId" INTEGER NOT NULL,
+    CONSTRAINT "Lots_demandeId_fkey" FOREIGN KEY ("demandeId") REFERENCES "Demande" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "Roles" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "role_nom" TEXT NOT NULL,
+    "priorite" INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "Type_traitement_souhaite" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "type_traitement_souhaite" INTEGER
+);
+CREATE TABLE IF NOT EXISTS "Unite_affaires" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nom" TEXT
+);
+CREATE TABLE IF NOT EXISTS "Utilisateur_role" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "utilisateurId" INTEGER NOT NULL,
+    "roleId" INTEGER NOT NULL,
+    CONSTRAINT "Utilisateur_role_utilisateurId_fkey" FOREIGN KEY ("utilisateurId") REFERENCES "Utilisateurs" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Utilisateur_role_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Roles" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "Utilisateurs" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nom" TEXT,
+    "courriel" TEXT,
+    "mot_de_passe" TEXT
+);
+CREATE TABLE IF NOT EXISTS "_prisma_migrations" (
+    "id"                    TEXT PRIMARY KEY NOT NULL,
+    "checksum"              TEXT NOT NULL,
+    "finished_at"           DATETIME,
+    "migration_name"        TEXT NOT NULL,
+    "logs"                  TEXT,
+    "rolled_back_at"        DATETIME,
+    "started_at"            DATETIME NOT NULL DEFAULT current_timestamp,
+    "applied_steps_count"   INTEGER UNSIGNED NOT NULL DEFAULT 0
+);
+INSERT INTO "Acces_role_ecran" ("id","roleId","ecranId") VALUES (1,1,1),
+ (2,1,6),
+ (5,6,1),
+ (7,6,3),
+ (8,6,4),
+ (9,6,5),
+ (10,6,6),
+ (11,6,7),
+ (12,2,1),
+ (13,2,6),
+ (14,3,1),
+ (15,4,1),
+ (16,5,1),
+ (17,1,2),
+ (18,3,2),
+ (19,5,6),
+ (20,3,7),
+ (21,7,1),
+ (22,7,7),
+ (23,6,2),
+ (24,3,6),
+ (26,6,8),
+ (27,4,8),
+ (29,6,9),
+ (30,3,9);
+INSERT INTO "Demande" ("id","titre","statut","unite","createdAt","courriel") VALUES (2,'Salut Martin, je suis convaincu que tu va réussir ton projet! oh que oui!','Brouillon','01 - Regroupement ts','2025-03-31 23:05:14','martin.aubry@montreal.ca'),
+ (3,'Let''s go Habs','Approuvé','02 - Direction générale',1743469685871,'vboulerice@hotmail.com'),
+ (4,'Recettes diverses','Brouillon','04 - Service des Finances',1743470368112,'martin.aubry@montreal.ca'),
+ (5,'Une autre demande tests tbnk','Brouillon','02 - Direction générale',1743471386765,'etienne.brisebois-boucher@montreal.com'),
+ (6,'Let''s go Habs','Soumis','02 - Direction générale',1743542899688,'martin.aubry@montreal.ca'),
+ (7,'Test','Approuvé','02 - Direction générale',1743547220212,'martin.aubry@montreal.ca'),
+ (8,'test GoHabs GO!!!','En planification','03 - Service du Greffe',1743558927064,'martin.aubry@montreal.ca'),
+ (9,'test','En planification','05 - Service du Développement Économique',1743780585289,'vboulerice@hotmail.com');
+INSERT INTO "Ecrans" ("id","nom") VALUES (1,'Accueil'),
+ (2,'Dashboard'),
+ (3,'Users'),
+ (4,'Param'),
+ (5,'Stats'),
+ (6,'mesdemandes'),
+ (7,'Config'),
+ (8,'GestionAO'),
+ (9,'AffectationDemandes');
+INSERT INTO "Item_Bordereau" ("id","lotId","description","quantite","unite","prixUnitaire") VALUES (49,40,'test',3.0,'sacs',3.44),
+ (50,41,'Saku',33.0,'ch',34.09),
+ (55,44,'ewrqwr',4.0,'ch',44.0),
+ (56,44,'hkh',4.0,'ch',1000.54),
+ (57,45,'Val',4.0,'ch',100000.0);
+INSERT INTO "Lots" ("id","description","demandeId") VALUES (40,'uhuih',4),
+ (41,'Lane Hutson',4),
+ (44,'Test',2),
+ (45,'Test - 8',2);
+INSERT INTO "Roles" ("id","role_nom","priorite") VALUES (1,'Requérant',6),
+ (2,'Agent - exp. client',4),
+ (3,'Chef de section acquisition',2),
+ (4,'Agent - acquisition',3),
+ (5,'Préposé à la gestion de contrat',5),
+ (6,'Administrateur',1),
+ (7,'Test',99);
+INSERT INTO "Type_traitement_souhaite" ("id","type_traitement_souhaite") VALUES (1,'Appel d''offres public'),
+ (2,'Appel d''offres sur invitation'),
+ (3,'Avis d''appel d''intérêt'),
+ (4,'Avis d''appel d''intention'),
+ (5,'Avis de qualification'),
+ (6,'Gré à  gré (uniquement pour les achats au dessus du seuil d''appel d''offres public)'),
+ (7,'Concours d''architecture');
+INSERT INTO "Unite_affaires" ("id","nom") VALUES (1,'01 - Regroupement ts'),
+ (2,'02 - Direction générale'),
+ (3,'03 - Service du Greffe'),
+ (4,'04 - Service des Finances'),
+ (5,'05 - Service du Développement Économique'),
+ (6,'06 - Bureau du Vérificateur Général'),
+ (7,'09 - Service de la Performance Organisationnelle'),
+ (8,'10 - Service de Sécurité Incendie de Montréal'),
+ (9,'11 - Secretariat de Liaison de l''Agglomeration de Montreal'),
+ (10,'12 - Commission des Services Electriques'),
+ (11,'13 - Service de l''Habitation'),
+ (12,'16 - Service de l''Évaluation Foncière'),
+ (13,'17 - Commission de la Fonction Publique de Montreal'),
+ (14,'18 - Service de la Gestion et de la Planification Immobilière'),
+ (15,'19 - Service de la Diversité Sociale et des Sports'),
+ (16,'20 - Bureau du Taxi de Montréal - Paramunicipal'),
+ (17,'21 - Service des Grands Parcs, du Verdissement et du Mont-Royal'),
+ (18,'23 - Service de l''Environnement'),
+ (19,'24 - Service de la Concertation des Arrondissements'),
+ (20,'25 - Service de la Culture'),
+ (21,'26 - Ombudsman de Montreal'),
+ (22,'27 - Service de l''Expérience Citoyenne et des Communication'),
+ (23,'28 - Serv. des Infrastructures, de la Voirie et des Transports'),
+ (24,'29 - Service de l''Espace Pour la Vie'),
+ (25,'31 - La Ronde (Six-Flag)'),
+ (26,'33 - Service du Matériel Roulant et des Ateliers'),
+ (27,'34 - Service de l''Urbanisme et de la Mobilité'),
+ (28,'36 - Service des Ressources Humaines'),
+ (29,'37 - Service de Police de la Ville de Montreal'),
+ (30,'38 - Stationnement de Montréal - Dir. Gén.'),
+ (31,'39 - Service de l''Approvisionnement'),
+ (32,'41 - Service des Affaires Juridiques'),
+ (33,'42 - Service des Technologies de l''Information'),
+ (34,'46 - Bureau Inspecteur Général'),
+ (35,'49 - Service de l''Eau'),
+ (36,'60 - Depenses Communes'),
+ (37,'80 - Sociétés et Organismes Paramunicipal'),
+ (38,'51 - Rivière-Des-Prairies - Pointe-Aux-Trembles'),
+ (39,'52 - Direction d''Arrondissement - Ville-Marie'),
+ (40,'53 - Sud-Ouest'),
+ (41,'54 - Plateau-Mont-Royal'),
+ (42,'55 - Mercier - Hochelaga-Maisonneuve'),
+ (43,'56 - Ahuntsic-Cartierville'),
+ (44,'57 - Rosemont - la Petite-Patrie'),
+ (45,'58 - Villeray - St-Michel - Parc-Extension'),
+ (46,'59 - Cote-Des-Neiges - Notre-Dame-De-Grâce'),
+ (47,'75 - Outremont'),
+ (48,'76 - L''Île Bizard - Ste-Geneviève'),
+ (49,'79 - Anjou'),
+ (50,'82 - Pierrefonds - Roxboro'),
+ (51,'83 - Arrondissement de Verdun'),
+ (52,'85 - Saint-Léonard'),
+ (53,'86 - St-Laurent'),
+ (54,'87 - Montreal-Nord'),
+ (55,'88 - Lachine'),
+ (56,'89 - Lasalle');
+INSERT INTO "Utilisateur_role" ("id","utilisateurId","roleId") VALUES (1,1,1),
+ (2,1,6),
+ (11,3,6),
+ (12,3,1),
+ (13,3,3),
+ (14,4,6),
+ (15,4,3),
+ (16,4,1),
+ (17,4,7),
+ (18,5,6),
+ (19,5,7),
+ (20,5,1);
+INSERT INTO "Utilisateurs" ("id","nom","courriel","mot_de_passe") VALUES (1,'Martin','martin.aubry@montreal.ca','123'),
+ (3,'Étienne','etienne.brisebois-boucher@montreal.com','123'),
+ (4,'Valérie','vboulerice@hotmail.com','31231'),
+ (5,'Logan','logan.aubry@montreal.ca','123');
+INSERT INTO "_prisma_migrations" ("id","checksum","finished_at","migration_name","logs","rolled_back_at","started_at","applied_steps_count") VALUES ('19c91ea8-eee2-4b59-8098-1c6a8bdfdf6c','85d15fcb646531b83ba1ec55e06559189cdb1aea320221998d2bfe57e346cc30',1743459557015,'20250328221801_init',NULL,NULL,1743459557008,1),
+ ('6c71c353-42f5-4d38-a793-d7015967aa96','bb7eea734c34d079a40f0b845f3c7bfcbed62c379de26a8743f697755825fa30',1743459557022,'20250328223507_ajout_unite',NULL,NULL,1743459557016,1),
+ ('f1f3ccd4-385c-4f74-ad77-48b6b9a355e8','1177b003198ec8c93eb3c6d2794faf3cb017ba999c326647708a712a3667faf6',1743459805921,'20250331222325_init_complete',NULL,NULL,1743459805913,1);
+CREATE UNIQUE INDEX "Acces_role_ecran_roleId_ecranId_key" ON "Acces_role_ecran"("roleId", "ecranId");
+CREATE UNIQUE INDEX "Ecrans_nom_key" ON "Ecrans"("nom");
+COMMIT;
