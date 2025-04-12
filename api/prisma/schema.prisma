@@ -55,7 +55,7 @@ model Unite_affaires {
 model Utilisateurs {
   id           Int                @id @default(autoincrement())
   nom          String?
-  courriel     String?            @db.text
+  courriel     String?            
   mot_de_passe String?
 
   roles        Utilisateur_role[] // Relation avec la table pivot
