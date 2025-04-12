@@ -10,6 +10,7 @@ const Topbar = ({
   setSelectedRoleId,
 }) => {
   const [userRoles, setUserRoles] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (utilisateur) {
@@ -36,7 +37,6 @@ const Topbar = ({
     { id: 1, message: "Une nouvelle demande a été créée" },
     { id: 2, message: "La demande #42 a été soumise" },
   ]);
-  const API_URL = import.meta.env.VITE_API_URL;
 
   return (
     <nav className="navbar navbar-expand navbar-light px-4 justify-content-between border-bottom">

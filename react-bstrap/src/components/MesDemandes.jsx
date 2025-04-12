@@ -14,7 +14,7 @@ const MyDemand = ({ userRole, utilisateur }) => {
   useEffect(() => {
     const fetchDemandes = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/demandes`);
+        const res = await fetch(`${API_URL}/api/demandes`);
         const data = await res.json();
 
         let filtered = [];
