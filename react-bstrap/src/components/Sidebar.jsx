@@ -10,6 +10,7 @@ const Sidebar = ({
 }) => {
   const [ecransAccessibles, setEcransAccessibles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const chargerEcransPourRole = async () => {
@@ -36,8 +37,6 @@ const Sidebar = ({
   if (loading) {
     return <Spinner message="Chargement..." />;
   }
-
-  const API_URL = import.meta.env.VITE_API_URL;
 
   return (
     <div

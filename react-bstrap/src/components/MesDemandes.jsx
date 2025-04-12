@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
-const API_URL = import.meta.env.VITE_API_URL; // ✅ À AJOUTER ICI
 
 const MyDemand = ({ userRole, utilisateur }) => {
   const [demandes, setDemandes] = useState([]);
@@ -10,6 +9,7 @@ const MyDemand = ({ userRole, utilisateur }) => {
   const [totalDemandes, setTotalDemandes] = useState(0);
   const [planifCount, setPlanifCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL; // ✅ À AJOUTER ICI
 
   useEffect(() => {
     const fetchDemandes = async () => {
