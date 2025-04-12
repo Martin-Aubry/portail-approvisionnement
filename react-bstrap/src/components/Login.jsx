@@ -5,9 +5,8 @@ import { supabase } from "../supabaseClient";
 const Login = ({ onLogin }) => {
   const [courriel, setCourriel] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
-  const navigate = useNavigate();
-
   const API_URL = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault(); // ✅ empêche le rechargement de page

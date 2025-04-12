@@ -7,7 +7,7 @@ const Users = () => {
   const [roles, setRoles] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [formVisible, setFormVisible] = useState(false);
-  const API_URL = import.meta.env.VITE_API_URL; // ✅ À AJOUTER ICI
+
   const [formData, setFormData] = useState({
     nom: "",
     courriel: "",
@@ -15,6 +15,8 @@ const Users = () => {
     roles: [],
   });
   const [loading, setLoading] = useState(true);
+
+  const API_URL = import.meta.env.VITE_API_URL; // ✅ À AJOUTER ICI
 
   useEffect(() => {
     const fetchData = async () => {
