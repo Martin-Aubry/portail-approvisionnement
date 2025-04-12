@@ -7,6 +7,8 @@ const Login = ({ onLogin }) => {
   const [motDePasse, setMotDePasse] = useState("");
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleLogin = async (e) => {
     e.preventDefault(); // ✅ empêche le rechargement de page
 
@@ -22,7 +24,7 @@ const Login = ({ onLogin }) => {
 
     try {
       const res = await fetch(
-        `http://localhost:3001/api/utilisateurs-par-courriel/${courriel}`
+        `${API_URL}/api/utilisateurs-par-courriel/${courriel}`
       );
       const utilisateurComplet = await res.json();
       onLogin(utilisateurComplet);

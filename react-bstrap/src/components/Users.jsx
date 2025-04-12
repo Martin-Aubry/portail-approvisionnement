@@ -19,8 +19,8 @@ const Users = () => {
     const fetchData = async () => {
       try {
         const [usersRes, rolesRes] = await Promise.all([
-          fetch("http://localhost:3001/api/utilisateurs"),
-          fetch("http://localhost:3001/api/roles"),
+          fetch(`${API_URL}/api/utilisateurs`),
+          fetch(`${API_URL}/api/roles`),
         ]);
 
         const usersData = await usersRes.json();
@@ -39,9 +39,7 @@ const Users = () => {
   }, []);
 
   const handleRowClick = async (user) => {
-    const res = await fetch(
-      `http://localhost:3001/api/utilisateurs/${user.id}/roles`
-    );
+    const res = await fetch(`${API_URL}/api/utilisateurs/${user.id}/roles`);
     const userRoles = await res.json();
     setSelectedUser(user);
     setFormData({
@@ -88,8 +86,8 @@ const Users = () => {
 
     const method = selectedUser ? "PUT" : "POST";
     const url = selectedUser
-      ? `http://localhost:3001/api/utilisateurs/${selectedUser.id}`
-      : "http://localhost:3001/api/utilisateurs";
+      ? `${API_URL}/api/utilisateurs/${selectedUser.id}`
+      : `${API_URL}/api/utilisateurs`;
 
     try {
       const res = await fetch(url, {
@@ -112,9 +110,7 @@ const Users = () => {
       alert("Utilisateur sauvegardé !");
       setFormVisible(false);
 
-      const updatedUsers = await fetch(
-        "http://localhost:3001/api/utilisateurs"
-      );
+      const updatedUsers = await fetch(`${API_URL}/api/utilisateurs`);
       const data = await updatedUsers.json();
       setUtilisateurs(data);
     } catch (err) {
@@ -127,14 +123,12 @@ const Users = () => {
     if (window.confirm("Confirmer la suppression ?")) {
       console.log("👉 Data envoyée au backend :", formData);
 
-      await fetch(`http://localhost:3001/api/utilisateurs/${selectedUser.id}`, {
+      await fetch(`${API_URL}/api/utilisateurs/${selectedUser.id}`, {
         method: "DELETE",
       });
       alert("Utilisateur supprimé");
       setFormVisible(false);
-      const updatedUsers = await fetch(
-        "http://localhost:3001/api/utilisateurs"
-      );
+      const updatedUsers = await fetch(`${API_URL}/api/utilisateurs`);
       const data = await updatedUsers.json();
       setUtilisateurs(data);
     }

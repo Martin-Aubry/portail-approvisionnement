@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-// src/components/Topbar.jsx
 const Topbar = ({
   userRole,
   setUserRole,
@@ -11,31 +10,28 @@ const Topbar = ({
   setSelectedRoleId,
 }) => {
   const [userRoles, setUserRoles] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  // 👇 Récupération des utilisateurs depuis l’API au chargement du composant
-
-  // Charger les rôles lors de la connexion de l'utilisateur
   useEffect(() => {
     if (utilisateur) {
-      fetch(`http://localhost:3001/api/utilisateurs/${utilisateur.id}/roles`)
+      fetch(`${API_URL}/api/utilisateurs/${utilisateur.id}/roles`)
         .then((res) => res.json())
         .then((data) => {
           setUserRoles(data);
 
-          // Déterminer le rôle avec la plus haute priorité (la plus basse valeur)
           const rolePrioritaire = data.reduce((acc, curr) =>
             curr.priorite < acc.priorite ? curr : acc
           );
 
-          setUserRole(rolePrioritaire.role_nom); // 👈 met le rôle sélectionné
-          setSelectedRoleId(rolePrioritaire.id); // 👈 ici
+          setUserRole(rolePrioritaire.role_nom);
+          setSelectedRoleId(rolePrioritaire.id);
         })
         .catch((err) => console.error("Erreur fetch rôles:", err));
     } else {
       setUserRoles([]);
-      setUserRole(""); // Si aucun utilisateur
+      setUserRole("");
     }
-  }, [utilisateur]);
+  }, [utilisateur, API_URL]);
 
   const [notifications] = useState([
     { id: 1, message: "Une nouvelle demande a été créée" },
@@ -65,7 +61,6 @@ const Topbar = ({
             aria-expanded="false"
             style={{ cursor: "pointer", position: "relative" }}
           ></i>
-          {/* Badge rouge */}
           {notifications.length > 0 && (
             <span
               className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
@@ -74,8 +69,6 @@ const Topbar = ({
               {notifications.length}
             </span>
           )}
-
-          {/* Dropdown notifications */}
           <ul
             className="dropdown-menu dropdown-menu-end"
             aria-labelledby="notificationDropdown"
@@ -97,7 +90,6 @@ const Topbar = ({
           </ul>
         </div>
 
-        {/* Dropdown utilisateurs */}
         <div>{utilisateur?.nom}</div>
         <div className="dropdown">
           <a
@@ -119,7 +111,7 @@ const Topbar = ({
                   className="dropdown-item"
                   onClick={() => {
                     setUserRole(role.role_nom);
-                    setSelectedRoleId(role.id); // 👈 ici aussi
+                    setSelectedRoleId(role.id);
                   }}
                 >
                   {role.role_nom}

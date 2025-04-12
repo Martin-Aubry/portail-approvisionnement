@@ -13,7 +13,7 @@ const MyDemand = ({ userRole, utilisateur }) => {
   useEffect(() => {
     const fetchDemandes = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/demandes");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/demandes`);
         const data = await res.json();
 
         let filtered = [];
@@ -27,7 +27,6 @@ const MyDemand = ({ userRole, utilisateur }) => {
 
         setDemandes(filtered);
 
-        // Mise à jour des compteurs dynamiques
         setTotalDemandes(filtered.length);
         setPlanifCount(
           filtered.filter((d) => d.statut === "En planification").length
@@ -35,7 +34,7 @@ const MyDemand = ({ userRole, utilisateur }) => {
       } catch (err) {
         console.error("Erreur lors du fetch des demandes :", err);
       } finally {
-        setLoading(false); // ✅ Toujours désactiver le loading
+        setLoading(false);
       }
     };
 
@@ -49,7 +48,6 @@ const MyDemand = ({ userRole, utilisateur }) => {
   return (
     <div className="container-fluid">
       <div className="row align-items-center mb-3">
-        {/* Col gauche : Titre + icône filtre */}
         <div className="col-md-3 d-flex align-items-center">
           <h4 className="mb-0">Mes demandes</h4>
           <i
@@ -70,7 +68,6 @@ const MyDemand = ({ userRole, utilisateur }) => {
           ></i>
         </div>
 
-        {/* Col du milieu : KPI centrés */}
         <div className="col-md-6 d-flex justify-content-center gap-5">
           <div className="text-center">
             <i className="bi bi-hourglass-split fs-4 text-primary"></i>
@@ -89,7 +86,6 @@ const MyDemand = ({ userRole, utilisateur }) => {
           </div>
         </div>
 
-        {/* Col droite : bouton nouvelle demande */}
         <div className="col-md-3 d-flex justify-content-end">
           <Link to="/formulaire" className="btn btn-outline-primary">
             Nouvelle demande

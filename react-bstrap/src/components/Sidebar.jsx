@@ -11,28 +11,27 @@ const Sidebar = ({
   const [ecransAccessibles, setEcransAccessibles] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const chargerEcransPourRole = async () => {
       if (!selectedRoleId) return;
 
       try {
-        const res = await fetch(
-          `http://localhost:3001/api/roles/${selectedRoleId}/acces`
-        );
+        const res = await fetch(`${API_URL}/api/roles/${selectedRoleId}/acces`);
         const acces = await res.json();
 
-        const nomsEcrans = acces.map((a) => a.ecran?.nom).filter((nom) => nom); // enlever undefined au cas où
-
+        const nomsEcrans = acces.map((a) => a.ecran?.nom).filter((nom) => nom);
         setEcransAccessibles(nomsEcrans);
       } catch (error) {
         console.error("Erreur chargement écrans accessibles :", error);
       } finally {
-        setLoading(false); // ✅ Toujours désactiver le loading
+        setLoading(false);
       }
     };
 
     chargerEcransPourRole();
-  }, [selectedRoleId]);
+  }, [selectedRoleId, API_URL]);
 
   const menus = ecransAccessibles;
 
@@ -77,6 +76,7 @@ const Sidebar = ({
               </Link>
             </li>
           )}
+
           {menus.includes("GestionAO") && (
             <li className="nav-item mb-2">
               <Link
@@ -90,6 +90,7 @@ const Sidebar = ({
               </Link>
             </li>
           )}
+
           {menus.includes("AffectationDemandes") && (
             <li className="nav-item mb-2">
               <Link
@@ -101,6 +102,7 @@ const Sidebar = ({
               </Link>
             </li>
           )}
+
           {menus.includes("Dashboard") && (
             <li className="nav-item mb-2">
               <Link
@@ -114,6 +116,7 @@ const Sidebar = ({
               </Link>
             </li>
           )}
+
           {menus.includes("Users") && (
             <li className="nav-item mb-2">
               <Link
@@ -127,6 +130,7 @@ const Sidebar = ({
               </Link>
             </li>
           )}
+
           {menus.includes("Stats") && (
             <li className="nav-item mb-2">
               <Link
@@ -140,6 +144,7 @@ const Sidebar = ({
               </Link>
             </li>
           )}
+
           {menus.includes("Param") && (
             <li className="nav-item mb-2">
               <Link
@@ -151,6 +156,7 @@ const Sidebar = ({
               </Link>
             </li>
           )}
+
           {menus.includes("Config") && (
             <li className="nav-item mb-2">
               <Link
@@ -166,6 +172,7 @@ const Sidebar = ({
           )}
         </ul>
       </div>
+
       <div className="p-1 border-top overflow-auto">
         <ul className="nav flex-column">
           <a
