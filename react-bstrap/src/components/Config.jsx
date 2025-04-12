@@ -10,6 +10,7 @@ const Config = () => {
   const [accesRolesEcrans, setAccesRolesEcrans] = useState([]);
   const [nouveauRole, setNouveauRole] = useState("");
   const [prioriteRole, setPrioriteRole] = useState(99);
+  const API_URL = import.meta.env.VITE_API_URL; // ✅ À AJOUTER ICI
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/unites`)

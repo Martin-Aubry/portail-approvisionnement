@@ -7,6 +7,7 @@ const Users = () => {
   const [roles, setRoles] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [formVisible, setFormVisible] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL; // ✅ À AJOUTER ICI
   const [formData, setFormData] = useState({
     nom: "",
     courriel: "",

@@ -5,6 +5,7 @@ export default function Bordereaux() {
   const [modalVisible, setModalVisible] = useState(false);
   const [cibleSuppression, setCibleSuppression] = useState(null);
   const { lots, setLots } = useContext(LotsContext);
+  const API_URL = import.meta.env.VITE_API_URL; // ✅ À AJOUTER ICI
 
   const supprimerLot = (lotIndex) => {
     const updatedLots = [...lots];
