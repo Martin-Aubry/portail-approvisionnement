@@ -36,7 +36,7 @@ export default function Bordereaux() {
         const itemId = updatedLots[lotIndex].items[itemIndex]?.id;
 
         if (itemId) {
-          await fetch(`${import.meta.env.VITE_API_URL}/api/items/${itemId}`, {
+          await fetch(`${API_URL}/api/items/${itemId}`, {
             method: "DELETE",
           });
         }
@@ -50,7 +50,7 @@ export default function Bordereaux() {
         const lotId = updatedLots[lotIndex]?.id;
 
         if (lotId) {
-          await fetch(`${import.meta.env.VITE_API_URL}/api/lots/${lotId}`, {
+          await fetch(`${API_URL}/api/lots/${lotId}`, {
             method: "DELETE",
           });
         }
@@ -117,14 +117,11 @@ export default function Bordereaux() {
 
       console.log("📦 Lots à sauvegarder :", lotsFormates);
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/demandes/${id}/bordereaux`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lots: lotsFormates }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/demandes/${id}/bordereaux`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lots: lotsFormates }),
+      });
 
       const result = await response.json();
       console.log("✅ Bordereaux sauvegardés :", result);

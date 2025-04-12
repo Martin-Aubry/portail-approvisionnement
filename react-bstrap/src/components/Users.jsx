@@ -34,12 +34,12 @@ const Users = () => {
       } catch (err) {
         console.error("Erreur fetch utilisateurs ou rôles :", err);
       } finally {
-        setLoading(false); // ✅ Important : désactiver le skeleton
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    if (API_URL) fetchData(); // ✅ on s’assure qu’il est défini
+  }, [API_URL]);
 
   const handleRowClick = async (user) => {
     const res = await fetch(`${API_URL}/api/utilisateurs/${user.id}/roles`);

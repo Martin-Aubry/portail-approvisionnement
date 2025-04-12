@@ -22,13 +22,6 @@ const FormulaireReq = ({ utilisateur }) => {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch(`${API_URL}/api/unites`)
-      .then((res) => res.json())
-      .then((data) => setUnites(data))
-      .catch((err) => console.error("Erreur fetch unités:", err));
-  }, []);
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const unitesRes = await fetch(`${API_URL}/api/unites`);

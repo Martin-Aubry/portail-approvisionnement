@@ -13,7 +13,7 @@ const Config = () => {
   const API_URL = import.meta.env.VITE_API_URL; // ✅ À AJOUTER ICI
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/unites`)
+    fetch(`${API_URL}/api/unites`)
       .then((res) => res.json())
       .then((data) => setUnites(data))
       .catch((err) => console.error("Erreur fetch unites:", err));
@@ -21,15 +21,9 @@ const Config = () => {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${import.meta.env.VITE_API_URL}/api/roles`).then((res) =>
-        res.json()
-      ),
-      fetch(`${import.meta.env.VITE_API_URL}/api/ecrans`).then((res) =>
-        res.json()
-      ),
-      fetch(`${import.meta.env.VITE_API_URL}/api/acces-role-ecran`).then(
-        (res) => res.json()
-      ),
+      fetch(`${API_URL}/api/roles`).then((res) => res.json()),
+      fetch(`${API_URL}/api/ecrans`).then((res) => res.json()),
+      fetch(`${API_URL}/api/acces-role-ecran`).then((res) => res.json()),
     ])
       .then(([rolesData, ecransData, accesData]) => {
         setRoles(rolesData);
@@ -45,7 +39,7 @@ const Config = () => {
     );
 
     if (existe) {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/acces-role-ecran`, {
+      await fetch(`${API_URL}/api/acces-role-ecran`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ roleId, ecranId }),
@@ -56,14 +50,11 @@ const Config = () => {
         )
       );
     } else {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/acces-role-ecran`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ roleId, ecranId }),
-        }
-      );
+      const res = await fetch(`${API_URL}/api/acces-role-ecran`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roleId, ecranId }),
+      });
       const data = await res.json();
       setAccesRolesEcrans([...accesRolesEcrans, data]);
     }
@@ -72,7 +63,7 @@ const Config = () => {
   const ajouterUnite = async () => {
     if (!nouvelleUnite.trim()) return;
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/unites`, {
+    const res = await fetch(`${API_URL}/api/unites`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nom: nouvelleUnite }),
@@ -84,21 +75,18 @@ const Config = () => {
   };
 
   const supprimerUnite = async (id) => {
-    await fetch(`${import.meta.env.VITE_API_URL}/api/unites/${id}`, {
+    await fetch(`${API_URL}/api/unites/${id}`, {
       method: "DELETE",
     });
     setUnites(unites.filter((u) => u.id !== id));
   };
 
   const enregistrerModification = async () => {
-    const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/unites/${uniteEnEdition}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nom: nomEdition }),
-      }
-    );
+    const res = await fetch(`${API_URL}/api/unites/${uniteEnEdition}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nom: nomEdition }),
+    });
 
     const data = await res.json();
     setUnites(unites.map((u) => (u.id === data.id ? data : u)));
