@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const supabaseAdmin = require("./supabaseAdmin");
+import organisationRoutes from "./routes/organisations.js";
 
 const prisma = require("./lib/prisma");
 

@@ -52,6 +52,16 @@ model Unite_affaires {
   @@map("Unite_affaires")
 }
 
+model Organisation {
+  id               Int      @id @default(autoincrement())
+  nomLegal         String
+  typeOrganisation String
+  adresse          String
+  facturation      String
+  taille           Int
+  createdAt        DateTime @default(now())
+}
+
 model Utilisateurs {
   id           Int                @id @default(autoincrement())
   nom          String?
