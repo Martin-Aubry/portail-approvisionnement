@@ -1,14 +1,14 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const supabaseAdmin = require("./supabaseAdmin");
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import supabaseAdmin from "./supabaseAdmin.js";
+import prisma from "./lib/prisma.js";
 import organisationRoutes from "./routes/organisations.js";
-
-const prisma = require("./lib/prisma");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/api/organisations", organisationRoutes);
 
 process.on("uncaughtException", (err) => {
   console.error("Uncaught Exception:", err);
