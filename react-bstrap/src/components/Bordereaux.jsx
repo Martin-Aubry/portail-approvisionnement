@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { LotsContext } from "../context/LotsContext";
+import SkeletonCard from "./SkeletonCard";
 
 export default function Bordereaux() {
   const { id } = useParams();
@@ -8,6 +9,14 @@ export default function Bordereaux() {
   const [modalVisible, setModalVisible] = useState(false);
   const [cibleSuppression, setCibleSuppression] = useState(null);
   const { lots, setLots } = useContext(LotsContext);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (id && Array.isArray(lots)) {
+      const timeout = setTimeout(() => setLoading(false), 200); // 300ms
+      return () => clearTimeout(timeout);
+    }
+  }, [id, lots]);
+
   const API_URL = import.meta.env.VITE_API_URL;
 
   const supprimerLot = (lotIndex) => {
@@ -67,6 +76,16 @@ export default function Bordereaux() {
       alert("Une erreur est survenue lors de la suppression.");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="container mt-4">
+        {[...Array(5)].map((_, idx) => (
+          <SkeletonCard key={idx} />
+        ))}
+      </div>
+    );
+  }
 
   const ajouterLot = () => {
     if (!descriptionLot.trim()) return;

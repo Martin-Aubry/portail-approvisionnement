@@ -8,6 +8,7 @@ const Topbar = ({
   setUtilisateur,
   selectedRoleId,
   setSelectedRoleId,
+  setSidebarLoading,
 }) => {
   const [userRoles, setUserRoles] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
@@ -110,8 +111,10 @@ const Topbar = ({
                 <button
                   className="dropdown-item"
                   onClick={() => {
+                    setSidebarLoading(true);
                     setUserRole(role.role_nom);
                     setSelectedRoleId(role.id);
+                    setTimeout(() => setSidebarLoading(false), 200);
                   }}
                 >
                   {role.role_nom}

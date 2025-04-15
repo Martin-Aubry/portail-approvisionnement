@@ -14,12 +14,15 @@ import FormulaireReq from "./components/FormulaireReq";
 import Config from "./components/Config";
 import Login from "./components/Login";
 import AffectationDemandes from "./components/AffectationDemandes";
+import CollabSA from "./components/CollabSA";
+import AdminContrat from "./components/AdminContrat";
 
 function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [userRole, setUserRole] = useState(""); // valeur par défaut
   const [utilisateur, setUtilisateur] = useState(null);
   const [selectedRoleId, setSelectedRoleId] = useState(null);
+  const [sidebarLoading, setSidebarLoading] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -41,6 +44,7 @@ function App() {
             setUtilisateur={setUtilisateur}
             selectedRoleId={selectedRoleId}
             setSelectedRoleId={setSelectedRoleId}
+            setSidebarLoading={setSidebarLoading}
           />
 
           <div className="d-flex flex-grow-1">
@@ -49,6 +53,7 @@ function App() {
               toggleSidebar={toggleSidebar}
               utilisateur={utilisateur}
               selectedRoleId={selectedRoleId}
+              sidebarLoading={sidebarLoading}
             />
             <main
               className="flex-grow-1 p-0"
@@ -79,6 +84,8 @@ function App() {
                   />
 
                   <Route path="/stats" element={<Stats />} />
+                  <Route path="/collabSA" element={<CollabSA />} />
+                  <Route path="/adminContrat" element={<AdminContrat />} />
                   <Route path="/config" element={<Config />} />
                   <Route
                     path="/affectationDemandes"

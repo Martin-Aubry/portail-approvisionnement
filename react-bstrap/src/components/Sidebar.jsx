@@ -7,6 +7,7 @@ const Sidebar = ({
   toggleSidebar,
   utilisateur,
   selectedRoleId,
+  sidebarLoading,
 }) => {
   const [ecransAccessibles, setEcransAccessibles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,15 +35,15 @@ const Sidebar = ({
 
   const menus = ecransAccessibles;
 
-  if (loading) {
-    return <Spinner message="Chargement..." />;
+  if (loading || sidebarLoading) {
+    return <Spinner message="Chargement du menu..." />;
   }
 
   return (
     <div
       className="text-black p-3 sidebar-transition d-flex flex-column border-end"
       style={{
-        width: isCollapsed ? "93px" : "220px",
+        width: isCollapsed ? "93px" : "280px",
         minHeight: "94vh",
         overflow: "hidden",
         position: "relative",
@@ -76,6 +77,32 @@ const Sidebar = ({
             </li>
           )}
 
+          {menus.includes("collabSA") && (
+            <li className="nav-item mb-2">
+              <Link
+                to="/collabSA"
+                className="nav-link text-black d-flex align-items-center"
+              >
+                <i className="bi bi-person-plus me-2"></i>
+                <span className={isCollapsed ? "d-none" : ""}>
+                  Accompagnement
+                </span>
+              </Link>
+            </li>
+          )}
+
+          {menus.includes("AffectationDemandes") && (
+            <li className="nav-item mb-2">
+              <Link
+                to="/AffectationDemandes"
+                className="nav-link text-black d-flex align-items-center"
+              >
+                <i className="bi bi-share me-2"></i>
+                <span className={isCollapsed ? "d-none" : ""}>Affectation</span>
+              </Link>
+            </li>
+          )}
+
           {menus.includes("GestionAO") && (
             <li className="nav-item mb-2">
               <Link
@@ -90,14 +117,28 @@ const Sidebar = ({
             </li>
           )}
 
-          {menus.includes("AffectationDemandes") && (
+          {menus.includes("Stats") && (
             <li className="nav-item mb-2">
               <Link
-                to="/AffectationDemandes"
+                to="/stats"
                 className="nav-link text-black d-flex align-items-center"
               >
-                <i className="bi bi-share me-2"></i>
-                <span className={isCollapsed ? "d-none" : ""}>Affectation</span>
+                <i className="bi bi-book me-2"></i>
+                <span className={isCollapsed ? "d-none" : ""}>Publication</span>
+              </Link>
+            </li>
+          )}
+
+          {menus.includes("AdminContrat") && (
+            <li className="nav-item mb-2">
+              <Link
+                to="/adminContrat"
+                className="nav-link text-black d-flex align-items-center"
+              >
+                <i className="bi bi-briefcase me-2"></i>
+                <span className={isCollapsed ? "d-none" : ""}>
+                  Administration de contrat
+                </span>
               </Link>
             </li>
           )}
@@ -125,20 +166,6 @@ const Sidebar = ({
                 <i className="bi bi-people me-2"></i>
                 <span className={isCollapsed ? "d-none" : ""}>
                   Utilisateurs
-                </span>
-              </Link>
-            </li>
-          )}
-
-          {menus.includes("Stats") && (
-            <li className="nav-item mb-2">
-              <Link
-                to="/stats"
-                className="nav-link text-black d-flex align-items-center"
-              >
-                <i className="bi bi-bar-chart-line me-2"></i>
-                <span className={isCollapsed ? "d-none" : ""}>
-                  Statistiques
                 </span>
               </Link>
             </li>
