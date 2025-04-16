@@ -60,6 +60,8 @@ model Organisation {
   facturation      String
   taille           Int
   createdAt        DateTime @default(now())
+
+  @@map("Organisation") 
 }
 
 model Utilisateurs {

@@ -27,4 +27,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    const updated = await prisma.organisation.update({
+      where: { id },
+      data: req.body,
+    });
+    res.json(updated);
+  } catch (error) {
+    console.error("❌ Erreur mise à jour organisation:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 export default router;
