@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ConfigOrg = () => {
   const [form, setForm] = useState({
+    id: null, // 👈 Ajouté pour savoir si on fait POST ou PUT
     nomLegal: "",
     typeOrganisation: "Municipalité",
     adresse: "",
@@ -11,32 +12,55 @@ const ConfigOrg = () => {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  useEffect(() => {
+    const fetchOrganisation = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/organisations`);
+        const data = await res.json();
+
+        if (data.length > 0) {
+          setForm(data[0]); // On charge la première organisation
+        }
+      } catch (error) {
+        console.error("Erreur chargement organisation:", error);
+      }
+    };
+
+    fetchOrganisation();
+  }, [API_URL]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const enregistrerOrganisation = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      ...form,
+      taille: parseInt(form.taille),
+    };
+
     try {
-      const response = await fetch(`${API_URL}/api/organisations`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      const response = await fetch(
+        `${API_URL}/api/organisations${form.id ? `/${form.id}` : ""}`,
+        {
+          method: form.id ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!response.ok) throw new Error("Erreur lors de l'enregistrement");
 
       const resultat = await response.json();
+      setForm(resultat); // 🟢 Mettre à jour le state avec la réponse du serveur
       alert("Organisation enregistrée avec succès!");
     } catch (error) {
       console.error("Erreur:", error);
       alert("Une erreur est survenue.");
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await enregistrerOrganisation();
   };
 
   return (

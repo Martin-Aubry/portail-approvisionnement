@@ -16,6 +16,7 @@ import Login from "./components/Login";
 import AffectationDemandes from "./components/AffectationDemandes";
 import CollabSA from "./components/CollabSA";
 import AdminContrat from "./components/AdminContrat";
+import SEAO from "./components/SEAO";
 
 function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -86,6 +87,7 @@ function App() {
                   <Route path="/stats" element={<Stats />} />
                   <Route path="/collabSA" element={<CollabSA />} />
                   <Route path="/adminContrat" element={<AdminContrat />} />
+                  <Route path="/seao" element={<SEAO />} />
                   <Route path="/config" element={<Config />} />
                   <Route
                     path="/affectationDemandes"

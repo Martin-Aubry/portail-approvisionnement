@@ -14,6 +14,23 @@ model Categories_magasinage {
   @@map("Categories_magasinage")
 }
 
+model ProjetSEAO {
+  id          Int     @id @default(autoincrement())
+  titre       String
+  organisation String
+  montant     Float?
+}
+
+model Contrat {
+  id              Int     @id @default(autoincrement())
+  numero_contrat  String
+  description     String
+  montant_octroye Float
+
+  @@map("Contrat")
+}
+
+
 model Demande {
   id        Int      @id @default(autoincrement())
   titre     String

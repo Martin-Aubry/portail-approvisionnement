@@ -129,6 +129,18 @@ const Sidebar = ({
             </li>
           )}
 
+          {menus.includes("SEAO") && (
+            <li className="nav-item mb-2">
+              <Link
+                to="/seao"
+                className="nav-link text-black d-flex align-items-center"
+              >
+                <i className="bi bi-bag me-2"></i>
+                <span className={isCollapsed ? "d-none" : ""}>SÉAO</span>
+              </Link>
+            </li>
+          )}
+
           {menus.includes("AdminContrat") && (
             <li className="nav-item mb-2">
               <Link
